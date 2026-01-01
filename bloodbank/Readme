@@ -1,0 +1,125 @@
+🩸 Blood Bank Management System (Django)
+
+    A Django-based Blood Bank Management System that helps manage blood donors, blood requests, blood stock, and emergency donor notifications.
+This project focuses on real-time blood availability, admin-controlled workflows, and secure user authentication.
+
+✨ Key Features
+👤 User Features
+
+User Registration & Login
+    Secure Authentication
+    Forgot Password with OTP verification
+    Password Reset
+    Donor profile with:
+    Blood Group
+    Mobile Number
+
+🧑‍⚕️ Admin Features
+
+Admin Dashboard
+    View all blood requests
+    Approve / Reject blood requests
+    Automatic blood stock update
+    Find compatible donors
+    Send emergency email notifications
+    30-minute cooldown timer after sending donor emails
+    Manage blood stock quantity
+    🩸 Blood Request Flow
+    User submits blood request
+    Admin checks stock
+    If stock available → request approved
+    If stock unavailable → compatible donors notified via email
+    Donor search locked for 30 minutes
+
+🛠️ Technologies Used
+    Component	Technology
+    Backend	Python, Django
+    Frontend	HTML, CSS, Bootstrap
+    Database	SQLite
+    Authentication	Django Auth
+    Email	SMTP
+    Server	Django Development Server
+
+
+📁 Project Structure
+blood_bank/
+│
+├── bloodbank/              # Main Django Project
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── asgi.py
+│
+├── accounts/               # User & Authentication App
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│
+├── requestsapp/            # Blood Requests App
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│
+├── stock/                  # Blood Stock App
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│
+├── templates/              # Global Templates (Outside Apps)
+│   ├── base.html
+│   ├── accounts/
+│   ├── requestsapp/
+│   └── stock/
+│
+├── static/
+│   ├── css/
+│   └── js/
+│
+├── manage.py
+└── requirements.txt
+
+⚙️ Local Setup Instructions (Run Locally)
+1️⃣ Create Virtual Environment
+                          python -m venv venv
+
+
+Activate:
+
+                          venv\Scripts\activate   # Windows
+                          source venv/bin/activate  # Linux / Mac
+
+2️⃣ Install Required Packages
+                        pip install -r requirements.txt
+
+3️⃣ Database Migration
+                        python manage.py makemigrations
+                        python manage.py migrate
+
+4️⃣ Create Admin User
+                        python manage.py createsuperuser
+
+5️⃣ Run the Project
+                        python manage.py runserver
+
+
+Open browser and visit:
+      http://127.0.0.1:8000/
+
+🧪 Admin Access
+      Admin Login: /admin/
+      Admin Dashboard: /admin-dashboard/
+      Manage blood requests, donors & stock from dashboard
+📌 Important Notes
+      Templates are placed outside all apps
+      Uses SQLite database
+      OTP is session-based
+      SMTP works in local environment
+
+👨‍💻 Developer Details
+
+Name: Mathuprasanth R K
+Project Type: Django Web Application
+Purpose: Academic & Learning Project
+
+🌟 Conclusion
+      This Blood Bank Management System provides a realistic, production-style workflow for managing blood requests and donor coordination, making it ideal for college projects, practicals, and portfolio showcase.
