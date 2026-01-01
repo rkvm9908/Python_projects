@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mt-4">🩸 Blood Stock</h2>
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Blood Group</th>
+            <th>Quantity</th>
+            <th>Update</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stock in stocks %}
+        <tr>
+            <td>{{ stock.blood_group }}</td>
+            <td>
+                <form method="POST" action="{% url 'update_stock' stock.id %}" class="d-flex">
+                    {% csrf_token %}
+                    <input type="number" name="quantity"
+                            value="{{ stock.quantity }}"
+                            min="0"
+                            class="form-control me-2"
+                            required>
+            </td>
+            <td>
+                    <button type="submit" class="btn btn-success btn-sm">
+                        Update
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

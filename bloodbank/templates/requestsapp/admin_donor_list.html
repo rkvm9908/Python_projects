@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Donor List{% endblock %}
+
+{% block content %}
+<h3 class="mb-4"> Registered Donors</h3>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Blood Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in donors %}
+        <tr>
+            <td>{{ d.user.username }}</td>
+            <td>{{ d.user.email }}</td>
+            <td>{{ d.mobile }}</td>
+            <td>{{ d.blood_group }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No donors found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<h4>Blood Requests</h4>
+<table class="table table-bordered table-hover mb-4">
+    <thead class="table-dark">
+        <tr>
+            <th>User</th>
+            <th>Blood Group</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in requests %}
+        <tr>
+            <td>{{ r.user.username }}</td>
+            <td>{{ r.blood_group }}</td>
+            <td>
+                <span class="fw-bold badge 
+                    {% if r.status == 'Pending' %}text-warning
+                    {% elif r.status == 'Approved' %}text-success
+                    {% else %}text-danger{% endif %}">
+                    {{ r.status }}
+                </span>
+            </td>
+            <td>
+                {% if r.status == 'Pending' %}
+                <a href="{% url 'update_request' r.id 'approve' %}" class="btn btn-success btn-sm">Approve</a>
+                {% elif r.status == 'Approved' %} 
+                <p class="text-success fw-bold">Successfully Approved!</p>
+                {% elif r.status == 'Not Available' %}
+                {% if r.cooldown_active %}
+                <button class="btn btn-secondary btn-sm countdown-btn" data-seconds="{{ r.remaining_seconds }}"
+                    disabled>
+                    ⏳ <span class="time">30:00</span>
+                </button>
+                {% else %}
+                <a href="{% url 'donor_list' r.id %}" class="btn btn-warning btn-sm">
+                    Find Donors
+                </a>
+                {% endif %}
+                <a href="{% url 'update_request' r.id 'approve' %}" class="btn btn-success btn-sm">Approve</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mt-4">🩸 Blood Stock</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Blood Group</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.blood_group }}</td>
+                <td>{{ stock.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
+
+{% endblock %}

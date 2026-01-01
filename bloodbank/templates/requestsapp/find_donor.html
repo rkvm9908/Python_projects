@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Donor List{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Compatible Donors for {{ req.blood_group }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Blood Group</th>
+                <th>Mobile</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in donors %}
+            <tr>
+                <td>
+                    <input type="checkbox" 
+                            name="donors" 
+                            value="{{ d.id }}" 
+                            class="donor-checkbox">
+                </td>
+                <td>{{ d.user.username }}</td>
+                <td>{{ d.user.email }}</td>
+                <td>{{ d.blood_group }}</td>
+                <td>{{ d.mobile }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Disabled by default -->
+    <button type="submit" 
+            id="sendBtn" 
+            class="btn btn-danger mt-3" 
+            disabled>
+        Send Email to Selected Donors
+    </button>
+</form>
+
+<!-- ✅ JS Logic -->
+<script>
+    const checkboxes = document.querySelectorAll('.donor-checkbox');
+    const sendBtn = document.getElementById('sendBtn');
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+            const anyChecked = Array.from(checkboxes).some(c => c.checked);
+            sendBtn.disabled = !anyChecked;
+        });
+    });
+</script>
+
+{% endblock %}

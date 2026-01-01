@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Welcome, {{ request.user.username }} </h2>
+
+<div class="card shadow">
+  <div class="card-header bg-danger text-white">Your Blood Requests</div>
+  <div class="card-body">
+    {% if requests %}
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Blood Group</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in requests %}
+        <tr>
+          <td>{{ r.blood_group }}</td>
+          <td>
+                <span class="badge 
+                    {% if r.status == 'Pending' %}bg-warning
+                    {% elif r.status == 'Approved' %}bg-success
+                    {% else %}bg-danger{% endif %}">
+                    {{ r.status }}
+                </span>
+          </td>
+          <td>{{ r.created_at|date:"d M Y" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="text-muted">No blood requests yet 😔</p>
+    {% endif %}
+    <a href="{% url 'request_blood' %}" class="btn btn-danger mt-3">Request Blood</a>
+  </div>
+</div>
+{% endblock %}
