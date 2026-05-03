@@ -1,0 +1,57 @@
+{% extends "components/base.html" %}
+{% block content %}
+<div class="admin-container">
+    <h2><i class="fas fa-tools"></i> Model & Dataset Manager</h2>
+
+    <div class="card">
+        <h3>Upload New Dataset (.csv)</h3>
+        <form action="{{ url_for('upload_dataset') }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="dataset" id="fileup" accept=".csv" required>
+            <button type="submit" class="btn-login">Upload</button>
+        </form>
+    </div>
+
+    <hr style="opacity:0; padding: 10px;">
+
+    <div class="card">
+        <h3>Available Datasets</h3>
+        <table  width="100%" cellpadding="10" style="border: 1px solid #2c3e50;border-collapse: collapse;">
+            <thead>
+                <tr style="background: #2c3e50; color: white;">
+                    <th>File Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <td>{{ file }}</td>
+                    <td>
+                        <form action="{{ url_for('delete_dataset', filename=file) }}" method="post"
+                            onsubmit="return confirm('Are you sure you want to delete this dataset?');"
+                            style="display:inline;">
+                            <button type="submit" class="btn-logout"
+                                style="background: #e74c3c; cursor: pointer; border: none; padding: 5px 10px; border-radius: 4px; color: white;">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <hr style="opacity:0; padding: 10px;">
+
+    <div class="card" style="text-align: center; padding: 30px; margin-bottom: 50px;">
+        <h3>Retrain ML Model</h3>
+        <p>Clicking this will retrain the ensemble model using the latest datasets.</p>
+        <form action="{{ url_for('train_model') }}" method="post">
+            <button type="submit" class="btn-admin" style=" margin-top:20px;padding: 10px 20px; font-size: 1.2rem;">
+                <i class="fas fa-robot"></i> START TRAINING NOW
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
