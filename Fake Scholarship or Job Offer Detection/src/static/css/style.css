@@ -1,0 +1,554 @@
+/* --- 1. Global Variables & Reset --- */
+:root {
+    /* Color Palette */
+    --primary-bg: #1e1e1e;       /* Deep Dark Gray */
+    --secondary-bg: #2d2d2d;     /* Slightly lighter dark background */
+    --text-color: #e0e0e0;       /* Light Gray text */
+    --primary-accent: #3498db;   /* Blue */
+    --secondary-accent: #2980b9; /* Darker Blue */
+    --fake-color: #e74c3c;       /* Red for Fake */
+    --genuine-color: #2ecc71;    /* Green for Genuine */
+    --border-color: #444;        /* Dark border */
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s;
+}
+
+a {
+    color: var(--primary-accent);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--secondary-accent);
+}
+
+/* --- 2. Layout Structure & Utility --- */
+main {
+    flex-grow: 1; /* Pushes the footer down */
+    padding-top: 20px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.result-section {
+    background: var(--secondary-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* --- 3. Header and Navigation --- */
+header {
+    background-color: var(--secondary-bg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    padding: 15px 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+nav a {
+    color: var(--text-color);
+    margin-left: 20px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* --- 4. Main Typography & Form Controls (index.html) --- */
+h1 {
+    color: var(--primary-accent);
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+h2 {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+
+.tagline {
+    text-align: center;
+    color: #a0a0a0;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.detector-section {
+    padding: 20px 0;
+}
+
+.detection-form {
+    background: var(--secondary-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 250px;
+    background-color: #383838;
+    color: var(--text-color);
+    transition: border-color 0.3s;
+}
+
+textarea:focus {
+    border-color: var(--primary-accent);
+    outline: none;
+}
+
+.submit-btn, .back-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary-accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.submit-btn:hover, .back-btn:hover {
+    background-color: var(--secondary-accent);
+    transform: translateY(-2px);
+}
+
+.back-btn {
+    margin-top: 30px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#loadingIndicator {
+    text-align: center;
+    margin-top: 15px;
+    color: var(--primary-accent);
+    font-size: 1.1rem;
+}
+
+/* --- 5. API Guide Section --- */
+.api-guide {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #252525;
+    border-left: 5px solid var(--genuine-color);
+    border-radius: 5px;
+}
+
+.api-guide pre {
+    background-color: #111;
+    color: #e0e0e0;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: monospace;
+    font-size: 0.9rem;
+    border: 1px dashed var(--border-color);
+}
+
+.http-method {
+    color: #f1c40f; /* Yellow for POST */
+    font-weight: bold;
+}
+
+/* --- 6. Animated Result Card (result.html) --- */
+.result-card {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    border: none; /* Handled by glow-border */
+    z-index: 1; 
+}
+
+/* Card Color Coding */
+.fake-card {
+    background-color: #382525; /* Dark Red BG */
+}
+.genuine-card {
+    background-color: #26332d; /* Dark Green BG */
+}
+
+/* Glowing Border Layer */
+.glow-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px;
+    z-index: -1;
+    opacity: 0.5; 
+    filter: blur(8px);
+    transition: all 0.6s ease-out;
+}
+.fake-card .glow-border {
+    box-shadow: 0 0 15px var(--fake-color), 0 0 30px var(--fake-color);
+}
+.genuine-card .glow-border {
+    box-shadow: 0 0 15px var(--genuine-color), 0 0 30px var(--genuine-color);
+}
+.result-card:hover .glow-border {
+    opacity: 0.8;
+    filter: blur(10px);
+}
+
+/* Header/Prediction Details */
+.header-details {
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.type-badge {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: var(--text-color);
+}
+
+.main-prediction {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 10px 0;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.5); 
+    transition: color 0.5s;
+}
+.fake-card .main-prediction {
+    color: var(--fake-color);
+}
+.genuine-card .main-prediction {
+    color: var(--genuine-color);
+}
+
+/* Score Grid/Flex Layout */
+.score-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-label {
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.score-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+}
+.score-unit {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+.safety-value {
+    color: var(--genuine-color); 
+}
+.fake-value {
+    color: var(--fake-color); 
+}
+
+.divider {
+    width: 1px;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.15);
+    align-self: center;
+}
+
+/* Footer Details */
+.footer-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.processing-time {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* --- 7. Submitted Text Preview Animation (result.html) --- */
+
+.submitted-text {
+    margin-top: 50px; 
+    text-align: left;
+    opacity: 0; /* Hidden by default for fade-in */
+    transform: translateY(20px);
+    /* Animation applied below in Keyframe section */
+}
+
+/* Typing Effect Header */
+.typing-effect-header {
+    overflow: hidden; 
+    white-space: nowrap; 
+    margin: 0 auto 20px;
+    border-right: 0.15em solid var(--primary-accent); 
+    font-size: 1.8rem;
+    width: 0; 
+    max-width: fit-content;
+    color: var(--text-color);
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--border-color);
+    /* Animation applied below in Keyframe section */
+}
+
+/* Remove blinking cursor after typing is done (Applied by JS) */
+.typing-effect-header.typed {
+    border-right: none;
+}
+
+/* PRE tag wrapper for gradient border and shimmer */
+.text-preview-wrapper {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #252525; 
+    padding: 1px; /* To allow gradient border to show */
+}
+
+.text-preview-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    padding: 2px; 
+    background: linear-gradient(45deg, var(--primary-accent), var(--genuine-color), var(--fake-color), var(--primary-accent));
+    background-size: 400% 400%;
+    animation: gradientShimmer 4s ease infinite;
+mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    z-index: 0;
+}
+
+.submitted-text pre {
+    position: relative; 
+    z-index: 1;
+    background-color: #252525; 
+    padding: 15px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-size: 0.95rem;
+    border: none;
+}
+
+/* --- 8. Animation Keyframes --- */
+
+/* Result Card Entrance */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+.animated-entry {
+    animation: fadeInScale 0.6s ease-out forwards;
+}
+
+/* Submitted Text Entrance */
+@keyframes fadeInSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.submitted-text {
+    animation: fadeInSlideUp 0.8s ease-out 0.8s forwards; /* Delay to appear after card */
+}
+
+/* Typing Effect for H2 */
+.typing-effect-header {
+    animation: 
+        typing 2s steps(22, end) forwards, /* Type the text */
+        blink-caret 0.75s step-end infinite; /* Blinking cursor */
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% } 
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--primary-accent); }
+}
+
+/* Shimmer Gradient on Text Preview Box */
+@keyframes gradientShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- 9. Footer --- */
+footer {
+    background-color: #111;
+    color: #888;
+    text-align: center;
+    padding: 15px 20px;
+    font-size: 0.85rem;
+    margin-top: 30px;
+}
+
+/* --- 10. Media Queries for Responsiveness --- */
+
+/* Tablet (Max 768px) */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav {
+        margin-top: 15px;
+    }
+
+    nav a {
+        margin: 0 10px;
+    }
+
+    .detection-form {
+        padding: 20px;
+    }
+}
+
+/* Mobile (Max 480px) */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .logo a {
+        font-size: 1.4rem;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav a {
+        display: block;
+        margin: 5px 0;
+        width: 100px; /* Give a fixed width for stacked links */
+    }
+
+    .submit-btn, .back-btn {
+        font-size: 1rem;
+        padding: 12px;
+    }
+    
+    /* Result Card Adjustments */
+    .result-card {
+        padding: 20px;
+    }
+    .main-prediction {
+        font-size: 2.5rem;
+    }
+    .score-container {
+        flex-direction: column; /* Stack scores vertically on small screens */
+    }
+    .divider {
+        display: none; /* Hide the vertical divider when stacked */
+    }
+    .score-value {
+        font-size: 1.8rem;
+    }
+    
+    /* Submitted Text Adjustments */
+    .typing-effect-header {
+        font-size: 1.4rem;
+        text-align: center;
+        width: auto; /* Allow full width for wrapped text */
+        border-right: none; /* No cursor on mobile if text wraps */
+        animation: none; /* Disable typing effect on small screens for performance/layout */
+    }
+}

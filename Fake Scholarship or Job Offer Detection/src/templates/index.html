@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Analyze Offer - OfferShield{% endblock %}
+
+{% block content %}
+
+<section class="detector-section container">
+    <h1>Fake Scholarship & Job Offer Detector</h1>
+    <p class="tagline">Paste the full text below to determine the authenticity of the offer using our Machine Learning model.</p>
+    
+        <form action="/predict" method="post" class="detection-form " id="detectionForm">
+        <textarea name="text" rows="10" placeholder="Paste the full scholarship or job offer text here for analysis..." required></textarea>
+        <button type="submit" class="submit-btn">
+            <i class="fas fa-search"></i> Check Authenticity
+        </button>
+        <div id="loadingIndicator" style="display:none;">Analyzing...</div>
+    </form>
+</section>
+<section id="api-section" class="api-guide container">
+    <h2>🔗 API Integration Guide</h2>
+    <p>You can programatically check offers via our API endpoint:</p>
+    <pre id="api-instructions">
+<span class="http-method">POST</span> /api/predict
+Content-Type: application/json
+
+{
+    "text": "The full offer message..."
+}
+</pre>
+    <p>The API returns a JSON object with `prediction` (Fake/Genuine) and `probability`.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+        <script>
+        // Calls the animation function defined in main.js
+        document.addEventListener('DOMContentLoaded', () => {
+        animateScoreCounters(); 
+        animateSubmittedText();
+        });
+    </script>
+{% endblock %}

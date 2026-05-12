@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Result - OfferShield{% endblock %}
+
+{% block content %}
+<section class="result-section container">
+    <h1>Analysis Result</h1>
+
+
+{% set safety_score = 100 - (prob | float * 100) %}
+{% set safety_score = "%.1f" | format(safety_score) %}
+{% set fake_prob = "%.1f" | format(prob | float * 100) %}
+<div class="result-card animated-entry {{ 'fake-card' if label == 'Fake' else 'genuine-card' }}">
+
+    <div class="header-details">
+        {# Offer Type Badge #}
+        <p class="offer-type-display">
+            <span class="type-badge">{{ offer_type }}</span>
+        </p>
+
+        {# Main Prediction Label #}
+        <h2 class="main-prediction">{{ label }}</h2>
+    </div>
+
+    <div class="score-container">
+        {# Safety Score Display (The most important number) #}
+        <div class="score-item safety-score-item">
+            <p class="score-label">Authenticity Score</p>
+            <span class="score-number score-value safety-value" data-target="{{ safety_score }}">0.0 </span><span class="score-unit safety-value">%</span>
+        </div>
+        
+        <div class="divider"></div>
+
+        {# Probability of Fake (Supporting Data) #}
+        <div class="score-item fake-prob-item">
+            <p class="score-label">Probability (Fake)</p>
+            <span class="score-number score-value fake-value" data-target="{{ fake_prob }}">0.0</span><span class="score-unit fake-value">%</span>
+        </div>
+    </div>
+    
+    {% if genai_explanation %}
+    <div class="genai-explanation-container" style="margin-top: 1.5rem; padding: 1.2rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; text-align: left;">
+        <h3 style="margin-top: 0; font-size: 1.1rem; color: #fff; margin-bottom: 0.8rem;">🤖 AI Explanation</h3>
+        <p style="margin-bottom: 0; font-size: 0.95rem; line-height: 1.5; color: #ddd;">{{ genai_explanation }}</p>
+    </div>
+    {% endif %}
+    
+    {# Footer for Time Taken #}
+    <div class="footer-details">
+        <p id="timeBox" class="processing-time">
+            {% if time_taken %}
+                Processing Time: {{ time_taken | round(3) }} s
+            {% else %}
+                —
+            {% endif %}
+        </p>
+    </div>
+</div>   ஃ
+
+<div class="submitted-text animated-fade-in">
+        <h2 class="typing-effect-header" data-text="Submitted Text Preview:"></h2> 
+        <div class="text-preview-wrapper">
+            <pre class="animated-shimmer">{{ text }}</pre>
+        </div>
+    </div>
+
+    <a href="/" class="back-btn">← Perform Another Check</a>
+</section>
+{% endblock %}
+{% block scripts %}
+    {# Ensure this is placed in the scripts block #}
+    <script>
+        // Calls the animation function defined in main.js
+        document.addEventListener('DOMContentLoaded', () => {
+        animateScoreCounters(); 
+        animateSubmittedText();
+        });
+    </script>
+{% endblock %}
